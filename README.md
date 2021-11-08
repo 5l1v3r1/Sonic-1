@@ -1,22 +1,18 @@
 [![EmreKybs](https://img.shields.io/badge/MadeBy-EmreKybs-blue)
 # Sonic
-
+Sonic Is Web Headers Scanner
 
 <img src="https://github.com/emrekybs/Sonic/blob/main/3F3F.gif">  
-<img src="https://github.com/emrekybs/Sonic/blob/main/1.png">
 <img src="https://github.com/emrekybs/Sonic/blob/main/2.png">
 <img src="https://github.com/emrekybs/Sonic/blob/main/3.png">
 
-# 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗔𝗧𝗜𝗢𝗡 DRAGUNOV
+# 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗔𝗧𝗜𝗢𝗡 AND RUNNING SONIC
+```bash
+$ git clone https://github.com/emrekybs/Sonic.git
+$ cd Sonic
+$ chmod +x Sonic
 
-      $ git clone https://github.com/emrekybs/Dragunov.git
-      $ cd Dragunov
-      $ pip3 install termcolor
-      $ pip3 install dnspython
+$ ./sonic --help
+```
+<img src="https://github.com/emrekybs/Sonic/blob/main/1.png">
 
-# RUNNING
-      $ python3 Dragunov.py "Domain"
-<img src="https://github.com/emrekybs/Dragunov/blob/main/2.png">
-
-
-<img src="https://github.com/emrekybs/Dragunov/blob/main/3.png">
