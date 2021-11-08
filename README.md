@@ -15,7 +15,7 @@ $ ./sonic --help
 ```
 <img src="https://github.com/emrekybs/Sonic/blob/main/1.png">
 
-# Specifying File containing website Url
+# Specifying file containing website Urls
 ```bash
 $ ./sonic -f website.txt
 ```
