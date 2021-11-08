@@ -1,0 +1,125 @@
+#!/usr/bin/python3
+
+import optparse
+import requests
+import sys
+import os
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+white = "\033[1;37m"
+green = '\033[1;32;48m'
+bgreen = '\033[1;32m'
+bred = '\033[1;31m'
+noclr = '\033[0m'
+bblue = '\033[1;34m'
+cyan = '\033[0;36m'
+orng = '\033[0;33m'
+
+print(f'''\nEmreKybs{bred}{noclr}
+{bred}Sonic{noclr}
+          .,
+.      _,'f----.._
+|\ ,-'"/  |     ,'
+|,_  ,--.      /
+/,-. ,'`.     (_
+f  o|  o|__     "`-.
+,-._.,--'_ `.   _.,-`
+`"' ___.,'` j,-'
+  `-.__.,--'
+
+{bgreen}[SONIC Web Headers Scanner]{noclr}\n''')
+
+def check_https(web_resp):
+	if 'https' in web_resp.url:
+		return True
+	else:
+		return False
+
+def check_file_existence(file_path):
+	if os.path.exists(file_path) == False:
+		return False
+	else:
+		return True
+
+def get_response(web_url):
+	try:
+		resp = requests.get(web_url, verify=False, stream=True, allow_redirects=True)
+		print(f"[{bgreen}+{noclr}] {bred}IP:{noclr} {resp.raw._connection.sock.getpeername()[0]}")
+		print(f"[{bgreen}+{noclr}] {bred}CODE:{noclr} {white}{resp.status_code} {resp.reason}{noclr}")
+		return resp
+	except:
+		resp = requests.get(web_url, verify=False, stream=True, allow_redirects=True)
+		print(f"[{bgreen}+{noclr}] {bred}CODE:{noclr} {white}{resp.status_code} {resp.reason}{noclr}")
+		print(f"[{bred}Error{noclr}] something went wrong in exracting {bblue}IP{noclr}")
+		return resp
+
+def scan_header(header, header_dict):
+	try:
+		if not header in (header_dict.keys()):
+			print(f"{cyan}{header}:{noclr} {bred}missing{noclr}")
+		else:
+			header_value = header_dict[header]
+			print(f"{cyan}{header}:{noclr} {orng}{header_value}{noclr}")
+	except KeyboardInterrupt:
+		print(f"\n[{bred}KeyboardInterrupt{noclr}] Exiting..\n")
+
+parser = optparse.OptionParser("\n./sonuc [-h or --help] [-f or --file]=<file-path-with-website URLs, one on each line> [-l or --link=URL-of-one-website]")
+parser.add_option("-f", "--file", dest="websites_file_path", type='string', help="specify the file containing websites one on each line")
+parser.add_option("-l", "--link", dest="website_link", type='string', help="specify a single website link")
+(options, args) = parser.parse_args()
+
+
+if options.websites_file_path == None and options.website_link == None:
+	parser.error(f"\n[{bred}Error{noclr}] Insufficent Arguments supplied {cyan}-f/--file{noclr} or {cyan}-l/--link{noclr} missing value\n")
+	sys.exit(0)
+elif options.website_link != None:
+	website_url = options.website_link
+	print(f"\n[{bblue}INFO{noclr}] Analyzing {cyan}{website_url}{noclr}")
+	web_rsp = get_response(website_url)
+	headers = web_rsp.headers
+	if check_https(web_rsp):
+		print(f"[{bblue}INFO{noclr}] website is running {cyan}HTTPS{noclr}")
+		scan_header('Server', headers)
+		scan_header('Strict-Transport-Security', headers)
+		scan_header('Content-Security-Policy', headers)
+		scan_header('X-Frame-Options', headers)
+		scan_header('X-XSS-Protection', headers)
+		print("")
+	else:
+		print(f"[{bblue}INFO{noclr}] website is running {cyan}HTTP{noclr}")
+		scan_header('Server', headers)
+		scan_header('Content-Security-Policy', headers)
+		scan_header('X-Frame-Options', headers)
+		scan_header('X-XSS-Protection', headers)
+		print("")
+elif check_file_existence(options.websites_file_path):
+	file_path = options.websites_file_path
+	print(f"\n[{bblue}INFO{noclr}] {cyan}{file_path}{noclr} file found!\n")
+	with open(file_path, 'r') as file:
+		for line in file.readlines():
+			website_url = line.strip()
+			print(f"\n[{bblue}INFO{noclr}] Analyzing {cyan}{website_url}{noclr}")
+			web_rsp = get_response(website_url)
+			headers = web_rsp.headers
+			if check_https(web_rsp):
+				print(f"[{bblue}INFO{noclr}] website is running {cyan}HTTPS{noclr}")
+				scan_header('Server', headers)
+				scan_header('Strict-Transport-Security', headers)
+				scan_header('Content-Security-Policy', headers)
+				scan_header('X-Frame-Options', headers)
+				scan_header('X-XSS-Protection', headers)
+				print("")
+					
+			else:
+				print(f"[{bblue}INFO{noclr}] website is running {cyan}HTTP{noclr}")
+				scan_header('Server', headers)
+				scan_header('Content-Security-Policy', headers)
+				scan_header('X-Frame-Options', headers)
+				print("")
+
+
+else:
+	print(f"\n[{bred}Error{noclr}] something went wrong, please check your {cyan}file path{noclr}\n")
+
+
