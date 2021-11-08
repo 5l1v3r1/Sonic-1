@@ -2,7 +2,10 @@
 # Sonic
 
 
-<img src="https://github.com/emrekybs/Sonic/blob/main/3F3F.gif">
+<img src="https://github.com/emrekybs/Sonic/blob/main/3F3F.gif">  
+<img src="https://github.com/emrekybs/Sonic/blob/main/1.png">
+<img src="https://github.com/emrekybs/Sonic/blob/main/2.png">
+<img src="https://github.com/emrekybs/Sonic/blob/main/3.png">
 
 # 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗔𝗧𝗜𝗢𝗡 DRAGUNOV
 
